@@ -1,3 +1,4 @@
 logs.log
 best_model.pkl
 venv
+__pycache__
