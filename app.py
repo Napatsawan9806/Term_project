@@ -3,11 +3,11 @@ from dash import Input, Output, html
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from layout import get_layout
-from data_processing import load_data
+from data_processing import load_and_clean_data
 from model import setup_model, predict_next_7_days
 
 # ✅ โหลดข้อมูล
-data = load_data()
+data = load_and_clean_data()
 setup_model(data)  # ตั้งค่า PyCaret
 
 # ✅ สร้างแอป Dash
@@ -28,16 +28,17 @@ def predict_pm25(n_clicks):
     if n_clicks == 0:
         latest = data.iloc[-1]
         return (
-            f"Humidity: {latest['huminity']}, Temp: {latest['temperature']}",
+            f"Humidity: {latest['humidity']}, Temp: {latest['temperature']}",
             "",
             px.line(title="PM2.5 Forecast"),
         )
 
     # ✅ ใช้ข้อมูลล่าสุดจากไฟล์
     latest_data = data.iloc[-1]
+    last_date = data.index[-1]
 
     # ✅ พยากรณ์ 7 วันข้างหน้า
-    df_result = predict_next_7_days(latest_data)
+    df_result = predict_next_7_days(latest_data, last_date)
 
     # ✅ แสดงตาราง
     table = dbc.Table(
