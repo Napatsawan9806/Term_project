@@ -21,6 +21,7 @@ app.layout = get_layout()
         Output("latest_data", "children"),
         Output("prediction_table", "children"),
         Output("prediction_graph", "figure"),
+        Output("air_quality_advice", "children"),
     ],
     [Input("predict_btn", "n_clicks")],
 )
@@ -39,6 +40,17 @@ def predict_pm25(n_clicks):
 
     # ✅ พยากรณ์ 7 วันข้างหน้า
     df_result = predict_next_7_days(latest_data, last_date)
+
+    avg_pm25 = df_result["PM2.5 Prediction"].mean()
+
+    if avg_pm25 <= 25:
+        advice = "🌿 Air quality is **GOOD** this week. Enjoy outdoor activities!"
+    elif avg_pm25 <= 50:
+        advice = "😷 Air quality is **MODERATE**. Consider reducing outdoor activities."
+    elif avg_pm25 <= 100:
+        advice = "⚠️ Air quality is **UNHEALTHY** for sensitive groups. Wear a mask if necessary."
+    else:
+        advice = "🚨 Air quality is **VERY POOR**. Avoid going outside."
 
     # ✅ แสดงตาราง
     table = dbc.Table(
@@ -72,6 +84,7 @@ def predict_pm25(n_clicks):
         f"Humidity: {latest_data['humidity']}, Temp: {latest_data['temperature']}",
         table,
         fig,
+        advice,
     )
 
 

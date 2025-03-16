@@ -42,6 +42,11 @@ def get_layout():
                                     className="text-center",
                                 ),
                                 html.Div(id="prediction_table"),
+                                html.Br(),
+                                html.Div(
+                                    id="air_quality_advice",
+                                    className="text-center text-danger fw-bold",
+                                ),  # ✅ เพิ่มข้อความแนะ
                             ]
                         ),
                         width=8,
