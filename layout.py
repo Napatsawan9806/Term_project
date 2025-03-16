@@ -52,5 +52,59 @@ def get_layout():
             dbc.Row(
                 dbc.Col(dcc.Graph(id="prediction_graph"), width=12),
             ),
+            # ✅ เพิ่มส่วนของ Input และ Output สำหรับพยากรณ์รายชั่วโมง
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Card(
+                            dbc.CardBody(
+                                [
+                                    html.H5("Input Data", className="card-title"),
+                                    dbc.Label("Humidity (%)"),
+                                    dbc.Input(
+                                        id="input_humidity",
+                                        type="number",
+                                        value=50,
+                                        step=1,
+                                        min=0,
+                                        max=100,
+                                    ),
+                                    dbc.Label("Temperature (°C)"),
+                                    dbc.Input(
+                                        id="input_temperature",
+                                        type="number",
+                                        value=30,
+                                        step=0.1,
+                                    ),
+                                    html.Br(),
+                                    dbc.Button(
+                                        "Predict Next 24 Hours",
+                                        id="predict_hourly_btn",
+                                        color="primary",
+                                        className="mt-2 w-100",
+                                    ),
+                                ]
+                            )
+                        ),
+                        width=4,
+                    ),
+                    dbc.Col(
+                        dbc.Spinner(
+                            [
+                                html.H5(
+                                    "PM2.5 Forecast (Next 24 Hours)",
+                                    className="text-center",
+                                ),
+                                html.Div(id="hourly_prediction_table"),
+                            ]
+                        ),
+                        width=8,
+                    ),
+                ],
+                className="mb-4",
+            ),
+            dbc.Row(
+                dbc.Col(dcc.Graph(id="hourly_prediction_graph"), width=12),
+            ),
         ],
     )

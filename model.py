@@ -39,3 +39,30 @@ def predict_next_7_days(latest_data, last_date):
     return pd.DataFrame(
         {"Date": future_dates.strftime("%Y-%m-%d"), "PM2.5 Prediction": future_pred}
     )
+
+
+def predict_next_24_hours(humidity, temperature, last_date):
+    future_pred = []
+    future_dates = pd.date_range(start=last_date, periods=25, freq="H")[1:]
+
+    for date in future_dates:
+        input_data = pd.DataFrame(
+            {
+                "humidity": [humidity],
+                "temperature": [temperature],
+                "hour": [date.hour],
+                "day": [date.day],
+                "month": [date.month],
+            }
+        )
+
+        pred = predict_model(model, data=input_data)
+        next_hour_pred = pred["prediction_label"][0]
+        future_pred.append(next_hour_pred)
+
+    return pd.DataFrame(
+        {
+            "DateTime": future_dates.strftime("%Y-%m-%d %H:%M"),
+            "PM2.5 Prediction": future_pred,
+        }
+    )
