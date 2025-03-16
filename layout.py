@@ -9,9 +9,9 @@ def get_layout():
             dbc.NavbarSimple(
                 brand="PM2.5 Prediction Dashboard",
                 brand_href="#",
-                color="primary",
+                color="dark",
                 dark=True,
-                className="mb-4",
+                className="mb-4 shadow-sm rounded-3",
             ),
             dbc.Row(
                 [
@@ -20,17 +20,22 @@ def get_layout():
                             dbc.CardBody(
                                 [
                                     html.H5(
-                                        "Latest Data from File", className="card-title"
+                                        "Latest Data from File",
+                                        className="card-title text-primary fw-bold",
                                     ),
-                                    html.Div(id="latest_data", className="mb-3"),
+                                    html.Div(
+                                        id="latest_data",
+                                        className="mb-3 fs-5 fw-semibold text-secondary",
+                                    ),
                                     dbc.Button(
                                         "Predict Next 7 Days",
                                         id="predict_btn",
-                                        color="primary",
-                                        className="w-100",
+                                        color="info",
+                                        className="w-100 fw-bold",
                                     ),
                                 ]
-                            )
+                            ),
+                            className="shadow-lg rounded-4 border-0 p-3",
                         ),
                         width=4,
                     ),
@@ -42,11 +47,6 @@ def get_layout():
                                     className="text-center",
                                 ),
                                 html.Div(id="prediction_table"),
-                                html.Br(),
-                                html.Div(
-                                    id="air_quality_advice",
-                                    className="text-center text-danger fw-bold",
-                                ),  # ✅ เพิ่มข้อความแนะ
                             ]
                         ),
                         width=8,
@@ -56,15 +56,29 @@ def get_layout():
             ),
             dbc.Row(
                 dbc.Col(dcc.Graph(id="prediction_graph"), width=12),
+                className="mb-3",
             ),
-            # ✅ เพิ่มส่วนของ Input และ Output สำหรับพยากรณ์รายชั่วโมง
+            # ✅ แก้ไขการจัดวาง air_quality_advice
+            dbc.Row(
+                dbc.Col(
+                    html.Div(
+                        id="air_quality_advice",
+                        className="mt-3 text-center text-warning fw-bold fs-5",
+                    ),
+                    width=12,
+                ),
+                className="mb-4",
+            ),
             dbc.Row(
                 [
                     dbc.Col(
                         dbc.Card(
                             dbc.CardBody(
                                 [
-                                    html.H5("Input Data", className="card-title"),
+                                    html.H5(
+                                        "Input Data",
+                                        className="card-title text-primary fw-bold",
+                                    ),
                                     dbc.Label("Humidity (%)"),
                                     dbc.Input(
                                         id="input_humidity",
@@ -86,10 +100,11 @@ def get_layout():
                                         "Predict Next 24 Hours",
                                         id="predict_hourly_btn",
                                         color="primary",
-                                        className="mt-2 w-100",
+                                        className="mt-2 w-100 fw-bold",
                                     ),
                                 ]
-                            )
+                            ),
+                            className="shadow-lg rounded-4 border-0 p-3",
                         ),
                         width=4,
                     ),

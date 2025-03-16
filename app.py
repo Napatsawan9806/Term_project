@@ -24,6 +24,7 @@ app.layout = get_layout()
         Output("air_quality_advice", "children"),
     ],
     [Input("predict_btn", "n_clicks")],
+    prevent_initial_call=True,
 )
 def predict_pm25(n_clicks):
     if n_clicks == 0:
@@ -98,6 +99,7 @@ def predict_pm25(n_clicks):
         Input("input_humidity", "value"),
         Input("input_temperature", "value"),
     ],
+    prevent_initial_call=True,
 )
 def predict_hourly_pm25(n_clicks, humidity, temperature):
     if n_clicks == 0:
