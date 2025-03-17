@@ -98,17 +98,20 @@ def predict_pm25(n_clicks):
         Input("predict_hourly_btn", "n_clicks"),
         Input("input_humidity", "value"),
         Input("input_temperature", "value"),
+        Input("input_day", "value"),
+        Input("input_month", "value"),
+        Input("input_hour", "value"),
     ],
     prevent_initial_call=True,
 )
-def predict_hourly_pm25(n_clicks, humidity, temperature):
+def predict_hourly_pm25(n_clicks, humidity, temperature, day, month, hour):
     if n_clicks == 0:
         return "", px.line(title="PM2.5 Hourly Forecast")
 
     last_date = data.index[-1]
 
     # ✅ พยากรณ์ PM2.5 รายชั่วโมง
-    df_result = predict_next_24_hours(humidity, temperature, last_date)
+    df_result = predict_next_24_hours(humidity, temperature, day, month, hour)
 
     # ✅ แสดงตาราง
     table = dbc.Table(

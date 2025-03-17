@@ -58,7 +58,6 @@ def get_layout():
                 dbc.Col(dcc.Graph(id="prediction_graph"), width=12),
                 className="mb-3",
             ),
-            # ✅ แก้ไขการจัดวาง air_quality_advice
             dbc.Row(
                 dbc.Col(
                     html.Div(
@@ -69,62 +68,54 @@ def get_layout():
                 ),
                 className="mb-4",
             ),
-            dbc.Row(
+            html.Div(
                 [
-                    dbc.Col(
-                        dbc.Card(
-                            dbc.CardBody(
-                                [
-                                    html.H5(
-                                        "Input Data",
-                                        className="card-title text-primary fw-bold",
-                                    ),
-                                    dbc.Label("Humidity (%)"),
-                                    dbc.Input(
-                                        id="input_humidity",
-                                        type="number",
-                                        value=50,
-                                        step=1,
-                                        min=0,
-                                        max=100,
-                                    ),
-                                    dbc.Label("Temperature (°C)"),
-                                    dbc.Input(
-                                        id="input_temperature",
-                                        type="number",
-                                        value=30,
-                                        step=0.1,
-                                    ),
-                                    html.Br(),
-                                    dbc.Button(
-                                        "Predict Next 24 Hours",
-                                        id="predict_hourly_btn",
-                                        color="primary",
-                                        className="mt-2 w-100 fw-bold",
-                                    ),
-                                ]
-                            ),
-                            className="shadow-lg rounded-4 border-0 p-3",
-                        ),
-                        width=4,
+                    html.H2("Input Data", className="text-primary mb-3"),
+                    html.Label("Humidity (%)"),
+                    dcc.Input(
+                        id="input_humidity",
+                        type="number",
+                        value=70,
+                        className="form-control mb-2",
                     ),
-                    dbc.Col(
-                        dbc.Spinner(
-                            [
-                                html.H5(
-                                    "PM2.5 Forecast (Next 24 Hours)",
-                                    className="text-center",
-                                ),
-                                html.Div(id="hourly_prediction_table"),
-                            ]
-                        ),
-                        width=8,
+                    html.Label("Temperature (°C)"),
+                    dcc.Input(
+                        id="input_temperature",
+                        type="number",
+                        value=28,
+                        className="form-control mb-2",
                     ),
+                    html.Label("Select Day"),
+                    dcc.Dropdown(
+                        id="input_day",
+                        options=[{"label": str(i), "value": i} for i in range(1, 32)],
+                        value=1,
+                        className="mb-2",
+                    ),
+                    html.Label("Select Month"),
+                    dcc.Dropdown(
+                        id="input_month",
+                        options=[{"label": f"{i}", "value": i} for i in range(1, 13)],
+                        value=1,
+                        className="mb-2",
+                    ),
+                    html.Label("Select Hour"),
+                    dcc.Dropdown(
+                        id="input_hour",
+                        options=[{"label": f"{i}:00", "value": i} for i in range(24)],
+                        value=12,
+                        className="mb-2",
+                    ),
+                    dbc.Button(
+                        "Predict Next 24 Hours",
+                        id="predict_hourly_btn",
+                        color="primary",
+                        className="mt-2",
+                    ),
+                    html.Div(id="hourly_prediction_table", className="mt-4"),
+                    dcc.Graph(id="hourly_prediction_graph"),
                 ],
-                className="mb-4",
-            ),
-            dbc.Row(
-                dbc.Col(dcc.Graph(id="hourly_prediction_graph"), width=12),
+                className="p-4 border rounded-3 shadow-sm mt-4",
             ),
         ],
     )

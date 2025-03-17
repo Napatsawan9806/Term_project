@@ -41,9 +41,13 @@ def predict_next_7_days(latest_data, last_date):
     )
 
 
-def predict_next_24_hours(humidity, temperature, last_date):
+def predict_next_24_hours(humidity, temperature, day, month, hour):
+    """พยากรณ์ค่า PM2.5 รายชั่วโมงจากค่าที่ผู้ใช้กรอก"""
     future_pred = []
-    future_dates = pd.date_range(start=last_date, periods=25, freq="H")[1:]
+    start_date = pd.Timestamp(
+        year=2025, month=month, day=day, hour=hour
+    )  # กำหนดเริ่มต้นจากค่าผู้ใช้
+    future_dates = pd.date_range(start=start_date, periods=24, freq="H")
 
     for date in future_dates:
         input_data = pd.DataFrame(
